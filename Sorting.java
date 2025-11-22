@@ -323,15 +323,29 @@ public class Sorting {
             int value = rand.nextInt(1_000_000);
             list1.add(value);
             list2.add(value);
+            
+            a.add(value);
+            b.add(value);
+            c.add(value);
         }
 
         int quickComparisons = quicksort(list1);
         int heapComparisons = heapsort(list2);
+        
+        int mergeComp = mergesort(a);
+        int treeComp  = treesort(b);
+        int blockComp = blocksort(c);
 
         System.out.println("Quicksort comparisons: " + quickComparisons);
         System.out.println("Heapsort comparisons:  " + heapComparisons);
+        System.out.println("MergeSort comparisons: " + mergeComp);
+        System.out.println("TreeSort comparisons:  " + treeComp);
+        System.out.println("BlockSort comparisons: " + blockComp);
 
         System.out.println("Quicksort sorted: " + isSorted(list1));
         System.out.println("Heapsort sorted:  " + isSorted(list2));
+        System.out.println("Merge sorted: " + isSorted(a));
+        System.out.println("Tree sorted:  " + isSorted(b));
+        System.out.println("Block sorted: " + isSorted(c));
     }
 }
