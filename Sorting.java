@@ -147,9 +147,169 @@ public class Sorting {
         }
         return true;
     }
+    
+    /**
+     * Sorts the given list in-place using mergesort.
+     *
+     * @param <T>  Comparable type
+     * @param list list to sort
+     * @return number of comparisons
+     */
+    public static <T extends Comparable<? super T>> int mergesort(List<T> list) {
+        List<T> temp = new ArrayList<>(list);
+        return mergesortHelper(list, temp, 0, list.size() - 1);
+    }
+
+    private static <T extends Comparable<? super T>> int mergesortHelper(
+            List<T> list, List<T> temp, int left, int right) {
+        if (left >= right) return 0;
+
+        int mid = (left + right) / 2;
+        int comparisons = 0;
+
+        comparisons += mergesortHelper(list, temp, left, mid);
+        comparisons += mergesortHelper(list, temp, mid + 1, right);
+        comparisons += merge(list, temp, left, mid, right);
+
+        return comparisons;
+    }
+
+    private static <T extends Comparable<? super T>> int merge(
+            List<T> list, List<T> temp, int left, int mid, int right) {
+
+        int comparisons = 0;
+
+        for (int i = left; i <= right; i++) {
+            temp.set(i, list.get(i));
+        }
+
+        int i = left;
+        int j = mid + 1;
+        int k = left;
+
+        while (i <= mid && j <= right) {
+            comparisons++;
+            if (temp.get(i).compareTo(temp.get(j)) <= 0) {
+                list.set(k++, temp.get(i++));
+            } else {
+                list.set(k++, temp.get(j++));
+            }
+        }
+
+        while (i <= mid) {
+            list.set(k++, temp.get(i++));
+        }
+
+        return comparisons;
+    }
 
     /**
-     * Main method for testing and comparing quicksort and heapsort.
+     * Sorts the list using TreeSort (BST insertion + inorder traversal).
+     *
+     * @param <T> Comparable type
+     * @param list list to sort
+     * @return number of comparisons
+     */
+     
+    public static <T extends Comparable<? super T>> int treesort(List<T> list) {
+        if (list.isEmpty()) return 0;
+
+        Node<T> root = new Node<>(list.get(0));
+        int comparisons = 0;
+
+        for (int i = 1; i < list.size(); i++) {
+            comparisons += insert(root, list.get(i));
+        }
+
+        List<T> output = new ArrayList<>();
+        inorder(root, output);
+
+        for (int i = 0; i < list.size(); i++) {
+            list.set(i, output.get(i));
+        }
+
+        return comparisons;
+    }
+
+    private static class Node<T extends Comparable<? super T>> {
+        T value;
+        Node<T> left, right;
+
+        Node(T v) { value = v; }
+    }
+
+    private static <T extends Comparable<? super T>> int insert(Node<T> node, T value) {
+        int comparisons = 1; // compare with node.value
+
+        if (value.compareTo(node.value) <= 0) {
+            if (node.left == null) {
+                node.left = new Node<>(value);
+            } else {
+                comparisons += insert(node.left, value);
+            }
+        } else {
+            if (node.right == null) {
+                node.right = new Node<>(value);
+            } else {
+                comparisons += insert(node.right, value);
+            }
+        }
+        return comparisons;
+    }
+
+    private static <T> void inorder(Node<T> node, List<T> output) {
+        if (node == null) return;
+        inorder(node.left, output);
+        output.add(node.value);
+        inorder(node.right, output);
+    }
+
+    /**
+     * Block sort implemented as Comb Sort.
+     *
+     * @param <T> Comparable type
+     * @param list list to sort
+     * @return number of comparisons
+     */
+     
+    public static <T extends Comparable<? super T>> int blocksort(List<T> list) {
+        int n = list.size();
+        int gap = n;
+        boolean swapped = true;
+        int comparisons = 0;
+
+        while (gap > 1 || swapped) {
+            gap = Math.max(1, (int)(gap / 1.3));
+            swapped = false;
+
+            for (int i = 0; i + gap < n; i++) {
+                comparisons++;
+                if (list.get(i).compareTo(list.get(i + gap)) > 0) {
+                    swap(list, i, i + gap);
+                    swapped = true;
+                }
+            }
+        }
+
+        return comparisons;
+    }
+
+    private static <T> void swap(List<T> list, int i, int j) {
+        T temp = list.get(i);
+        list.set(i, list.get(j));
+        list.set(j, temp);
+    }
+
+    private static <T extends Comparable<? super T>> boolean isSorted(List<T> list) {
+        for (int i = 1; i < list.size(); i++) {
+            if (list.get(i - 1).compareTo(list.get(i)) > 0) return false;
+        }
+        return true;
+    }
+    
+
+    /**
+     * Main method for testing and comparing quicksort, heapsort, merge sort, tree sort, and block sort.
      * Generates two identical lists of random integers, sorts them, verifies correctness, and reports comparison counts.
      *
      * @param args command line arguments (unused)
