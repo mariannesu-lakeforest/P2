@@ -81,7 +81,8 @@ public class Sorting {
      * @param <T>  the type of elements in the list, must be Comparable
      * @param list the list to sort
      * @return the number of element comparisons made
-     */
+    */
+    
     public static <T extends Comparable<? super T>> int heapsort(List<T> list) {
         int n = list.size();
         int comparisons = 0;
@@ -96,7 +97,6 @@ public class Sorting {
             swap(list, 0, i);
             comparisons += heapify(list, i, 0);
         }
-
         return comparisons;
     }
 
@@ -127,27 +127,9 @@ public class Sorting {
             swap(list, i, largest);
             comparisons += heapify(list, heapSize, largest);
         }
-
         return comparisons;
     }
 
-    // Swaps two elements in a list
-    private static <T> void swap(List<T> list, int i, int j) {
-        T temp = list.get(i);
-        list.set(i, list.get(j));
-        list.set(j, temp);
-    }
-
-    // Verifies that a list is sorted in non-decreasing order
-    private static <T extends Comparable<? super T>> boolean isSorted(List<T> list) {
-        for (int i = 1; i < list.size(); i++) {
-            if (list.get(i - 1).compareTo(list.get(i)) > 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
     /**
      * Sorts the given list in-place using mergesort.
      *
@@ -199,7 +181,6 @@ public class Sorting {
         while (i <= mid) {
             list.set(k++, temp.get(i++));
         }
-
         return comparisons;
     }
 
@@ -220,14 +201,12 @@ public class Sorting {
         for (int i = 1; i < list.size(); i++) {
             comparisons += insert(root, list.get(i));
         }
-
         List<T> output = new ArrayList<>();
         inorder(root, output);
 
         for (int i = 0; i < list.size(); i++) {
             list.set(i, output.get(i));
         }
-
         return comparisons;
     }
 
@@ -257,20 +236,21 @@ public class Sorting {
         return comparisons;
     }
 
-    private static <T> void inorder(Node<T> node, List<T> output) {
+    // Performs inorder traversal on the BST
+    private static <T extends Comparable<? super T>> void inorder(Node<T> node, List<T> output) {
         if (node == null) return;
         inorder(node.left, output);
         output.add(node.value);
         inorder(node.right, output);
     }
-
+    
     /**
      * Block sort implemented as Comb Sort.
      *
      * @param <T> Comparable type
      * @param list list to sort
      * @return number of comparisons
-     */
+    */
      
     public static <T extends Comparable<? super T>> int blocksort(List<T> list) {
         int n = list.size();
@@ -290,40 +270,52 @@ public class Sorting {
                 }
             }
         }
-
         return comparisons;
     }
 
+
+    /* UTILITY METHODS */
+
+    // Swaps two elements in a list
     private static <T> void swap(List<T> list, int i, int j) {
         T temp = list.get(i);
         list.set(i, list.get(j));
         list.set(j, temp);
     }
 
+    // Verifies that a list is sorted in non-decreasing order
     private static <T extends Comparable<? super T>> boolean isSorted(List<T> list) {
         for (int i = 1; i < list.size(); i++) {
-            if (list.get(i - 1).compareTo(list.get(i)) > 0) return false;
+            if (list.get(i - 1).compareTo(list.get(i)) > 0) {
+                return false;
+            }
         }
         return true;
     }
-    
 
     /**
      * Main method for testing and comparing quicksort, heapsort, merge sort, tree sort, and block sort.
      * Generates two identical lists of random integers, sorts them, verifies correctness, and reports comparison counts.
      *
      * @param args command line arguments (unused)
-     */
+    */
+    
     public static void main(String[] args) {
         Random rand = new Random();
+
         List<Integer> list1 = new ArrayList<>();
         List<Integer> list2 = new ArrayList<>();
+
+        // per request: declare lists a, b, c *inside main*
+        List<Integer> a = new ArrayList<>();
+        List<Integer> b = new ArrayList<>();
+        List<Integer> c = new ArrayList<>();
 
         for (int i = 0; i < 20000; i++) {
             int value = rand.nextInt(1_000_000);
             list1.add(value);
             list2.add(value);
-            
+
             a.add(value);
             b.add(value);
             c.add(value);
