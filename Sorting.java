@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * The Sorting class provides in-place implementations of the quicksort and heapsort algorithms. 
@@ -295,49 +294,48 @@ public class Sorting {
 
     /**
      * Main method for testing and comparing quicksort, heapsort, merge sort, tree sort, and block sort.
-     * Generates two identical lists of random integers, sorts them, verifies correctness, and reports comparison counts.
+     * Sorts the array: [8, 6, 7, 5, 3, 0, 9]
      *
      * @param args command line arguments (unused)
     */
     
     public static void main(String[] args) {
-        Random rand = new Random();
+    	Integer[] nums = {8, 6, 7, 5, 3, 0, 9};
 
-        List<Integer> list1 = new ArrayList<>();
-        List<Integer> list2 = new ArrayList<>();
+    	// Create separate copies so each algorithm sorts independently
+    	List<Integer> list1 = new ArrayList<>();
+    	List<Integer> list2 = new ArrayList<>();
+    	List<Integer> a = new ArrayList<>();
+    	List<Integer> b = new ArrayList<>();
+    	List<Integer> c = new ArrayList<>();
 
-        // per request: declare lists a, b, c *inside main*
-        List<Integer> a = new ArrayList<>();
-        List<Integer> b = new ArrayList<>();
-        List<Integer> c = new ArrayList<>();
+    	for (int n : nums) {
+        	list1.add(n);
+        	list2.add(n);
+        	a.add(n);
+        	b.add(n);
+        	c.add(n);
+    	}
 
-        for (int i = 0; i < 20000; i++) {
-            int value = rand.nextInt(1_000_000);
-            list1.add(value);
-            list2.add(value);
+    	int quickComparisons = quicksort(list1);
+    	int heapComparisons = heapsort(list2);
+    	int mergeComp = mergesort(a);
+    	int treeComp = treesort(b);
+    	int blockComp = blocksort(c);
 
-            a.add(value);
-            b.add(value);
-            c.add(value);
-        }
+    	System.out.println("Quicksort comparisons: " + quickComparisons);
+    	System.out.println("Heapsort comparisons:  " + heapComparisons);
+    	System.out.println("MergeSort comparisons: " + mergeComp);
+    	System.out.println("TreeSort comparisons:  " + treeComp);
+    	System.out.println("BlockSort comparisons: " + blockComp);
 
-        int quickComparisons = quicksort(list1);
-        int heapComparisons = heapsort(list2);
-        
-        int mergeComp = mergesort(a);
-        int treeComp  = treesort(b);
-        int blockComp = blocksort(c);
+    	System.out.println("Quicksort sorted: " + isSorted(list1));
+    	System.out.println("Heapsort sorted:  " + isSorted(list2));
+    	System.out.println("Merge sorted: " + isSorted(a));
+    	System.out.println("Tree sorted:  " + isSorted(b));
+    	System.out.println("Block sorted: " + isSorted(c));
 
-        System.out.println("Quicksort comparisons: " + quickComparisons);
-        System.out.println("Heapsort comparisons:  " + heapComparisons);
-        System.out.println("MergeSort comparisons: " + mergeComp);
-        System.out.println("TreeSort comparisons:  " + treeComp);
-        System.out.println("BlockSort comparisons: " + blockComp);
-
-        System.out.println("Quicksort sorted: " + isSorted(list1));
-        System.out.println("Heapsort sorted:  " + isSorted(list2));
-        System.out.println("Merge sorted: " + isSorted(a));
-        System.out.println("Tree sorted:  " + isSorted(b));
-        System.out.println("Block sorted: " + isSorted(c));
-    }
+    	// Printz the sorted results
+    	System.out.println("Final sorted list (quicksort): " + list1);
+	}
 }
