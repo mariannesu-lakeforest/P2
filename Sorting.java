@@ -323,19 +323,19 @@ public class Sorting {
     	int treeComp = treesort(b);
     	int blockComp = blocksort(c);
 
+		// Prints number of comparisons
     	System.out.println("Quicksort comparisons: " + quickComparisons);
     	System.out.println("Heapsort comparisons:  " + heapComparisons);
     	System.out.println("MergeSort comparisons: " + mergeComp);
     	System.out.println("TreeSort comparisons:  " + treeComp);
     	System.out.println("BlockSort comparisons: " + blockComp);
 
+		// Boolean to see if algorithm sorted successfully
     	System.out.println("Quicksort sorted: " + isSorted(list1));
     	System.out.println("Heapsort sorted:  " + isSorted(list2));
     	System.out.println("Merge sorted: " + isSorted(a));
     	System.out.println("Tree sorted:  " + isSorted(b));
     	System.out.println("Block sorted: " + isSorted(c));
 
-    	// Printz the sorted results
-    	System.out.println("Final sorted list (quicksort): " + list1);
 	}
 }
